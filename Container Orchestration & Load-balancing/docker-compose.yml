@@ -1,0 +1,41 @@
+version: '3.3'
+services:
+ app1:
+   image: naghme98/app1_docker_test
+   ports:
+     - "5001:5000"
+   deploy:
+     replicas: 3
+     restart_policy:
+       condition: on-failure
+ 
+ app2:
+   image: naghme98/app2_docker_test
+   ports:
+     - "5002:5000"
+   deploy:
+     replicas: 3
+     restart_policy:
+       condition: on-failure
+
+
+ nginx:
+   image: naghme98/nginx_docker_test
+   ports:
+     - "8083:80"
+   depends_on:
+     - app1
+     - app2
+
+ visualizer:
+   image: dockersamples/visualizer
+   ports:
+     - 3333:8080
+   volumes:
+     - /var/run/docker.sock:/var/run/docker.sock
+   deploy:
+     restart_policy:
+       condition: on-failure
+     placement:
+       constraints: [node.role == manager]
+
