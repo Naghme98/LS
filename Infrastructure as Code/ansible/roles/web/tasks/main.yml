@@ -1,0 +1,14 @@
+---
+  
+- name: Clone app repos
+  git:
+    repo: "{{ git_repo_address }}"
+    dest: /home/deploy/
+    clone: yes
+    update: yes
+      
+- name: deploy Docker Compose
+  docker_compose:
+    project_src: /home/deploy/
+    files:
+      - docker-compose.yml

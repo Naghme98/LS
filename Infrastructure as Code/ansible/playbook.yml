@@ -1,0 +1,10 @@
+---
+
+- hosts: all
+  become: true
+  roles:
+    - apt
+    - docker
+    - web
+  vars:
+    - git_repo_address: /web/vars/
